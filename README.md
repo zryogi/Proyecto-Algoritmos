@@ -62,60 +62,62 @@ Una vez eso ya puede ejecutar el programa con `F5`
 ### Algoritmos de Ordenamiento
 
 #### Bubble Sort
-![Bubble Sort](demos/sort/bubble.webm)
+![Bubble Sort](demos/sort/bubble.gif)
 
 #### Heap Sort
-![Heap Sort](demos/sort/heap.webm)
+![Heap Sort](demos/sort/heap.gif)
 
 #### Insertion Sort
-![Insertion Sort](demos/sort/insertion.webm)
+![Insertion Sort](demos/sort/insertion.gif)
 
 #### Quick Sort
-![Quick Sort](demos/sort/quick.webm)
+![Quick Sort](demos/sort/quick.gif)
 
 #### Radix Sort (LSD)
-![Radix Sort](demos/sort/radix.webm)
+![Radix Sort](demos/sort/radix.gif)
 
 #### Selection Sort
-![Selection Sort](demos/sort/selection.webm)
+![Selection Sort](demos/sort/selection.gif)
 
 ---
 
 ### Visualización de Árboles
 
 #### Inserción de Nodo Aleatorio
-![Inserción de Nodo Aleatorio](demos/trees/random_node_tree.webm)
+![Inserción de Nodo Aleatorio](demos/trees/random_node_tree.gif)
 
 #### Recorrido Inorden
-![Recorrido Inorden](demos/trees/inorder.webm)
+![Recorrido Inorden](demos/trees/inorder.gif)
 
 #### Recorrido Preorden
-![Recorrido Preorden](demos/trees/preorder.webm)
+![Recorrido Preorden](demos/trees/preorder.gif)
 
 #### Recorrido Posorden
-![Recorrido Posorden](demos/trees/posorder.webm)
+![Recorrido Posorden](demos/trees/posorder.gif)
 
 #### Balanceo del Árbol
-![Balanceo del Árbol](demos/trees/balance_tree.webm)
+![Balanceo del Árbol](demos/trees/balance_tree.gif)
 
 ---
 
 ### Visualización de Grafos
 
 #### Búsqueda BFS
-![Búsqueda BFS](demos/graph/bfs.webm)
+![Búsqueda BFS](demos/trees/bfs.gif)
 
 #### Búsqueda DFS
-![Búsqueda DFS](demos/graph/dfs.webm)
+![Búsqueda DFS](demos/trees/dfs.gif)
 
 #### Algoritmo de Dijkstra
-![Algoritmo de Dijkstra](demos/graph/djikstra.webm)
+![Algoritmo de Dijkstra](demos/trees/djikstra.gif)
 
 #### Generación de Grafo Aleatorio
-![Generación de Grafo Aleatorio](demos/graph/random_graph.webm)
+![Generación de Grafo Aleatorio](demos/trees/random_graph.gif)
 
 #### Creación de Grafo Personalizado
-![Creación de Grafo Personalizado](demos/graph/custom_graph.webm)
+![Creación de Grafo Personalizado](demos/trees/custom_graph.gif)
+
+---
 
 ## Contributing
 
