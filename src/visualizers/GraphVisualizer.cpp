@@ -48,14 +48,14 @@ void GraphVisualizer::GenerateRandomGraph(int numNodes, float edgeProbability,
     edges.clear();
     nextNodeId = 0;
 
-    const int MIN_DISTANCE = 150;  // Minimum distance between nodes
+    // Minimum distance between nodes
+    const int MIN_DISTANCE = 150;
 
     // Add nodes at random positions
     for (int i = 0; i < numNodes; i++) {
         bool validPosition = false;
         int x, y;
 
-        // Retry until a valid position is found
         while (!validPosition) {
             x = GetRandomValue(100, GetScreenWidth() - 100);
             y = GetRandomValue(100, GetScreenHeight() - 100);
@@ -72,7 +72,6 @@ void GraphVisualizer::GenerateRandomGraph(int numNodes, float edgeProbability,
         AddNode(x, y, "Node" + std::to_string(i));
     }
 
-    // Add edges based on random probability
     for (int i = 0; i < numNodes; i++) {
         for (int j = i + 1; j < numNodes; j++) {
             float probability =
@@ -88,8 +87,6 @@ void GraphVisualizer::GenerateRandomGraph(int numNodes, float edgeProbability,
               << " nodes and edge probability " << edgeProbability << std::endl;
 }
 
-// BFS with Animation
-// BFS with Improved Highlighting
 void GraphVisualizer::BFS(int startNode) {
     if (nodes.find(startNode) == nodes.end()) {
         std::cout << "Invalid start node for BFS: " << startNode << std::endl;
@@ -131,10 +128,8 @@ void GraphVisualizer::BFS(int startNode) {
             }
         }
 
-        // Mark current node as visited (blue) after processing
         HighlightNode(currentNode, BLUE);
 
-        // Animation step for node
         BeginDrawing();
         DrawWithHighlights(visited, visitedEdges);
         EndDrawing();
@@ -148,14 +143,17 @@ void GraphVisualizer::DFS(int startNode) {
         return;
     }
 
-    std::stack<std::pair<int, int>>
-        nodeStack;  // Stack now tracks edges as (from, to)
-    std::unordered_map<int, bool> visited;  // Track visited nodes
-    std::unordered_set<std::pair<int, int>, PairHash>
-        visitedEdges;  // Track visited edges
+    // Stack now tracks edges as (from, to)
+    std::stack<std::pair<int, int>> nodeStack;
 
-    nodeStack.push(
-        {-1, startNode});  // Start with (-1, startNode) to represent the root
+    // Track visited nodes
+    std::unordered_map<int, bool> visited;
+
+    // Track visited edges
+    std::unordered_set<std::pair<int, int>, PairHash> visitedEdges;
+
+    // Start with (-1, startNode) to represent the root
+    nodeStack.push({-1, startNode});
 
     while (!nodeStack.empty()) {
         auto [fromNode, currentNode] = nodeStack.top();
@@ -171,7 +169,7 @@ void GraphVisualizer::DFS(int startNode) {
             BeginDrawing();
             DrawWithHighlights(visited, visitedEdges);
             EndDrawing();
-            WaitForAnimationStep(500);  // Adjust delay as needed
+            WaitForAnimationStep(500);
         }
 
         if (!visited[currentNode]) {
@@ -204,19 +202,152 @@ void GraphVisualizer::DFS(int startNode) {
     EndDrawing();
 }
 
-// Wait for animation step
+struct DijkstraComparator {
+    bool operator()(const std::pair<int, float>& a,
+                    const std::pair<int, float>& b) {
+        return a.second > b.second;  // Min-heap based on distance
+    }
+};
+
+void GraphVisualizer::Dijkstra(int from, int to) {
+    if (nodes.find(from) == nodes.end() || nodes.find(to) == nodes.end()) {
+        std::cout << "Invalid source or destination node for Dijkstra: " << from
+                  << " -> " << to << std::endl;
+        return;
+    }
+
+    // Initialize distances and previous nodes for path reconstruction
+    std::unordered_map<int, float> distances;
+    std::unordered_map<int, int> previous;
+    std::unordered_set<int> visited;
+    for (const auto& [id, node] : nodes) {
+        distances[id] = std::numeric_limits<float>::infinity();
+    }
+    distances[from] = 0.0f;
+
+    // Priority queue for nodes to process
+    std::priority_queue<std::pair<int, float>,
+                        std::vector<std::pair<int, float>>, DijkstraComparator>
+        pq;
+    pq.push({from, 0.0f});
+
+    while (!pq.empty()) {
+        auto [currentNode, currentDistance] = pq.top();
+        pq.pop();
+
+        // Stop if we reach the destination
+        if (currentNode == to) break;
+
+        // Skip if already visited
+        if (visited.count(currentNode)) continue;
+
+        // Mark as visited
+        visited.insert(currentNode);
+        HighlightNode(currentNode, YELLOW);
+
+        // Animation step for node
+        BeginDrawing();
+        ClearBackground(BLACK);
+        DrawWithDistances(distances, visited);
+        EndDrawing();
+        WaitForAnimationStep(1000);
+
+        // Process all neighbors
+        for (const auto& edge : edges) {
+            if (edge.from == currentNode && !visited.count(edge.to)) {
+                float newDistance = distances[currentNode] + edge.weight;
+                if (newDistance < distances[edge.to]) {
+                    distances[edge.to] = newDistance;
+                    previous[edge.to] = currentNode;
+                    pq.push({edge.to, newDistance});
+
+                    // Highlight the edge being relaxed
+                    HighlightEdge(edge, YELLOW);
+
+                    // Animation step for edge
+                    BeginDrawing();
+                    DrawWithDistances(distances, visited);
+                    EndDrawing();
+                    WaitForAnimationStep(500);
+                }
+            }
+        }
+
+        // Mark the current node as finalized (blue)
+        HighlightNode(currentNode, BLUE);
+    }
+
+    // Highlight the shortest path
+    HighlightShortestPath(from, to, previous);
+}
+
+void GraphVisualizer::DrawWithDistances(
+    const std::unordered_map<int, float>& distances,
+    const std::unordered_set<int>& visited) {
+    // Draw edges
+    for (const auto& edge : edges) {
+        HighlightEdge(edge, LIGHTGRAY);  // Default color for edges
+    }
+
+    // Draw nodes
+    for (const auto& [id, node] : nodes) {
+        if (visited.count(id)) {
+            HighlightNode(id, BLUE);  // Finalized nodes in blue
+        } else {
+            HighlightNode(id, LIGHTGRAY);  // Unvisited nodes in gray
+        }
+
+        // Display distance
+        if (distances.count(id) &&
+            distances.at(id) < std::numeric_limits<float>::infinity()) {
+            DrawText(std::to_string(static_cast<int>(distances.at(id))).c_str(),
+                     node.x - 15, node.y - 40, 20, RED);
+        }
+    }
+}
+
+void GraphVisualizer::HighlightShortestPath(
+    int from, int to, const std::unordered_map<int, int>& previous) {
+    int currentNode = to;
+
+    // Check if the destination is reachable
+    if (previous.find(to) == previous.end()) {
+        std::cout << "No path exists from " << from << " to " << to
+                  << std::endl;
+        return;
+    }
+
+    // Highlight the shortest path
+    while (currentNode != from) {
+        int previousNode = previous.at(currentNode);
+
+        // Highlight the edge in green
+        HighlightEdge({previousNode, currentNode, 0}, GREEN);
+
+        // Highlight the node in green
+        HighlightNode(currentNode, GREEN);
+
+        currentNode = previousNode;
+    }
+
+    // Highlight the source node
+    HighlightNode(from, GREEN);
+
+    // Final render
+    BeginDrawing();
+    Draw();
+    EndDrawing();
+}
+
 void GraphVisualizer::WaitForAnimationStep(int milliseconds) {
-    std::this_thread::sleep_for(
-        std::chrono::milliseconds(milliseconds));  // 500 ms delay
+    std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
 
 void GraphVisualizer::Draw() {
-    // Draw nodes
     for (const auto& [id, node] : nodes) {
         DrawNode(node);
     }
 
-    // Draw edges
     for (const auto& edge : edges) {
         DrawEdge(edge, LIGHTGRAY);
     }
@@ -227,7 +358,6 @@ void GraphVisualizer::DrawNode(const GraphNode& node) {
     DrawText(std::to_string(node.id).c_str(), node.x - 10, node.y - 10, 20,
              BLACK);
 
-    // Draw the label if it exists
     if (!node.label.empty()) {
         DrawText(node.label.c_str(), node.x - 20, node.y + 25, 20, GREEN);
     }
@@ -237,41 +367,30 @@ void GraphVisualizer::DrawEdge(const GraphEdge& edge, Color color) {
     const GraphNode& fromNode = nodes[edge.from];
     const GraphNode& toNode = nodes[edge.to];
 
-    // Draw the edge line
     Vector2 startPos = {static_cast<float>(fromNode.x),
                         static_cast<float>(fromNode.y)};
     Vector2 endPos = {static_cast<float>(toNode.x),
                       static_cast<float>(toNode.y)};
     DrawLineEx(startPos, endPos, 2.0f, color);
 
-    // Calculate the position for the direction indicator
-    float fraction = 0.95f;  // Position closer to the target node
+    // Calculate the position for the weight
+    int midX = (startPos.x + endPos.x) / 2;
+    int midY = (startPos.y + endPos.y) / 2;
+
+    // Display the weight
+    DrawText(std::to_string(static_cast<int>(edge.weight)).c_str(), midX - 10,
+             midY - 10, 20, RED);
+
+    // Draw a circle as the direction indicator
+    float fraction = 0.95f;
     float dx = endPos.x - startPos.x;
     float dy = endPos.y - startPos.y;
     Vector2 indicatorPos = {startPos.x + dx * fraction,
                             startPos.y + dy * fraction};
-
-    // Draw a circle as the direction indicator
     DrawCircle(static_cast<int>(indicatorPos.x),
                static_cast<int>(indicatorPos.y), 5, YELLOW);
 }
 
-void GraphVisualizer::DrawArrow(int startX, int startY, int endX, int endY) {
-    float angle = atan2(endY - startY, endX - startX);
-    float arrowLength = 20.0f;
-
-    // Calculate arrowhead points
-    float arrowX1 = endX - arrowLength * cos(angle - M_PI / 6);
-    float arrowY1 = endY - arrowLength * sin(angle - M_PI / 6);
-    float arrowX2 = endX - arrowLength * cos(angle + M_PI / 6);
-    float arrowY2 = endY - arrowLength * sin(angle + M_PI / 6);
-
-    // Draw the arrowhead with enhanced visibility
-    DrawLine(endX, endY, arrowX1, arrowY1, RED);
-    DrawLine(endX, endY, arrowX2, arrowY2, RED);
-}
-
-// Highlight a single node with a specific color
 void GraphVisualizer::HighlightNode(int nodeId, Color color) {
     if (nodes.find(nodeId) != nodes.end()) {
         const GraphNode& node = nodes[nodeId];
@@ -281,7 +400,6 @@ void GraphVisualizer::HighlightNode(int nodeId, Color color) {
     }
 }
 
-// Highlight a single edge with a specific color
 void GraphVisualizer::HighlightEdge(const GraphEdge& edge, Color color) {
     const GraphNode& fromNode = nodes[edge.from];
     const GraphNode& toNode = nodes[edge.to];
@@ -296,7 +414,6 @@ void GraphVisualizer::HighlightEdge(const GraphEdge& edge, Color color) {
 void GraphVisualizer::DrawWithHighlights(
     const std::unordered_map<int, bool>& visited,
     const std::unordered_set<std::pair<int, int>, PairHash>& visitedEdges) {
-    // Draw edges
     for (const auto& edge : edges) {
         if (visitedEdges.count({edge.from, edge.to})) {
             DrawEdge(edge, RED);  // Visited edges are red
@@ -305,7 +422,6 @@ void GraphVisualizer::DrawWithHighlights(
         }
     }
 
-    // Draw nodes
     for (const auto& [id, node] : nodes) {
         if (visited.count(id) && visited.at(id)) {
             HighlightNode(id, BLUE);  // Visited nodes are blue

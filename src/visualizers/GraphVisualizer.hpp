@@ -49,7 +49,6 @@ class GraphVisualizer {
     // Helper functions
     void DrawNode(const GraphNode& node);
     void DrawEdge(const GraphEdge& edge, Color color);
-    void DrawArrow(int startX, int startY, int endX, int endY);
     void WaitForAnimationStep(int milliseconds);
     void HighlightNode(int nodeId, Color color);
     void HighlightEdge(const GraphEdge& edge, Color color);
@@ -68,6 +67,11 @@ class GraphVisualizer {
                  bool directed = true);
     void BFS(int startNode);
     void DFS(int startNode);
+    void Dijkstra(int from, int to);
+    void HighlightShortestPath(int from, int to,
+                               const std::unordered_map<int, int>& previous);
+    void DrawWithDistances(const std::unordered_map<int, float>& distances,
+                           const std::unordered_set<int>& visited);
 
     void Draw();
 };

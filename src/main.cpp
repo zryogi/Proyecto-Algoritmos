@@ -55,7 +55,7 @@ int main() {
                 DrawText("[D] Radix LSD sort", 10, 290, 20, WHITE);
                 visualizer.Update();
                 visualizer.Draw();
-                DrawText("Press [M] to go back to Menu", 10, 10, 20, LIGHTGRAY);
+                DrawText("Press [M] to go back to Menu", 10, 20, 20, LIGHTGRAY);
 
                 if (IsKeyPressed(KEY_M)) currentState = MENU;
                 break;
@@ -90,6 +90,7 @@ int main() {
                 DrawText("[1] Generate Random Graph", 10, 160, 20, WHITE);
                 DrawText("[2] BFS Traversal", 10, 190, 20, WHITE);
                 DrawText("[3] DFS Traversal", 10, 220, 20, WHITE);
+                DrawText("[4] Djikstra", 10, 250, 20, WHITE);
                 DrawText("Press [M] to go back to Menu", 10, 10, 20, LIGHTGRAY);
 
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) ||
@@ -111,17 +112,48 @@ int main() {
                     graphVisualizer.AddEdge(fromId, toId, weight);
                 }
                 if (IsKeyPressed(KEY_ONE)) {
-                    graphVisualizer.GenerateRandomGraph(6, 0.4, 100);
+                    std::string numberOfNodesStr =
+                        Prompt("Enter number of nodes");
+
+                    int numberOfNodes = std::stoi(numberOfNodesStr);
+                    graphVisualizer.GenerateRandomGraph(numberOfNodes, 0.4,
+                                                        100);
                 }
                 if (IsKeyPressed(KEY_TWO)) {
                     int initialNode =
                         std::stoi(Prompt("Enter Id of initial node"));
+
+                    BeginDrawing();
+                    ClearBackground(BLACK);
+                    graphVisualizer.Draw();
+                    EndDrawing();
+
                     graphVisualizer.BFS(initialNode);
                 }
                 if (IsKeyPressed(KEY_THREE)) {
                     int initialNode =
                         std::stoi(Prompt("Enter Id of initial node"));
+
+                    BeginDrawing();
+                    ClearBackground(BLACK);
+                    graphVisualizer.Draw();
+                    EndDrawing();
+
                     graphVisualizer.DFS(initialNode);
+                }
+                if (IsKeyPressed(KEY_FOUR)) {
+                    std::string fromStr = Prompt("from");
+                    std::string toStr = Prompt("to:");
+
+                    int from = std::stoi(fromStr);
+                    int to = std::stoi(toStr);
+
+                    BeginDrawing();
+                    ClearBackground(BLACK);
+                    graphVisualizer.Draw();
+                    EndDrawing();
+
+                    graphVisualizer.Dijkstra(from, to);
                 }
 
                 graphVisualizer.Draw();
