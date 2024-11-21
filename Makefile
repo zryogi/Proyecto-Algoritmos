@@ -24,7 +24,7 @@ else
 endif
 
 # Source files and output
-SRC = src/main.cpp src/helpers/InputHelper.cpp src/visualizers/GraphVisualizer.cpp src/visualizers/TreeVisualizer.cpp
+SRC = src/main.cpp src/helpers/InputHelper.cpp src/visualizers/SortVisualizer.cpp src/visualizers/GraphVisualizer.cpp src/visualizers/TreeVisualizer.cpp
 OBJ = $(SRC:src/%.cpp=build/%.o)
 TARGET = build/my_app$(TARGET_EXTENSION)
 

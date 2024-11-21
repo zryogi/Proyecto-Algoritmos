@@ -2,23 +2,24 @@
 
 #include <string>
 
-#include "Visualizer.h"
 #include "common/constants.h"
 #include "helpers/InputHelper.hpp"
 #include "visualizers/GraphVisualizer.hpp"
+#include "visualizers/SortVisualizer.hpp"
 #include "visualizers/TreeVisualizer.hpp"
 
+// Keep state of the app
 enum AppState { MENU, SORT_VISUALIZER, TREE_VISUALIZER, GRAPH_VISUALIZER };
 
 int main() {
     SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Algorithms Visualizer");
 
-    Visualizer visualizer;
+    SortVisualizer visualizer;
     TreeVisualizer treeVisualizer;
     GraphVisualizer graphVisualizer;
 
-    AppState currentState = MENU;  // Start at the menu
+    AppState currentState = MENU;
     SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
@@ -132,5 +133,5 @@ int main() {
         EndDrawing();
     }
 
-    CloseWindow(); /* Remember this goes last */
+    CloseWindow();
 }
