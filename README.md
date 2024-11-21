@@ -62,108 +62,60 @@ Una vez eso ya puede ejecutar el programa con `F5`
 ### Algoritmos de Ordenamiento
 
 #### Bubble Sort
-<video controls width="600">
-  <source src="demos/sort/bubble.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Bubble Sort](demos/sort/bubble.webm)
 
 #### Heap Sort
-<video controls width="600">
-  <source src="demos/sort/heap.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Heap Sort](demos/sort/heap.webm)
 
 #### Insertion Sort
-<video controls width="600">
-  <source src="demos/sort/insertion.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Insertion Sort](demos/sort/insertion.webm)
 
 #### Quick Sort
-<video controls width="600">
-  <source src="demos/sort/quick.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Quick Sort](demos/sort/quick.webm)
 
 #### Radix Sort (LSD)
-<video controls width="600">
-  <source src="demos/sort/radix.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Radix Sort](demos/sort/radix.webm)
 
 #### Selection Sort
-<video controls width="600">
-  <source src="demos/sort/selection.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Selection Sort](demos/sort/selection.webm)
 
 ---
 
 ### Visualización de Árboles
 
 #### Inserción de Nodo Aleatorio
-<video controls width="600">
-  <source src="demos/trees/random_node_tree.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Inserción de Nodo Aleatorio](demos/trees/random_node_tree.webm)
 
 #### Recorrido Inorden
-<video controls width="600">
-  <source src="demos/trees/inorder.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Recorrido Inorden](demos/trees/inorder.webm)
 
 #### Recorrido Preorden
-<video controls width="600">
-  <source src="demos/trees/preorder.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Recorrido Preorden](demos/trees/preorder.webm)
 
 #### Recorrido Posorden
-<video controls width="600">
-  <source src="demos/trees/posorder.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Recorrido Posorden](demos/trees/posorder.webm)
 
 #### Balanceo del Árbol
-<video controls width="600">
-  <source src="demos/trees/balance_tree.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Balanceo del Árbol](demos/trees/balance_tree.webm)
 
 ---
 
 ### Visualización de Grafos
 
 #### Búsqueda BFS
-<video controls width="600">
-  <source src="demos/graph/bfs.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Búsqueda BFS](demos/graph/bfs.webm)
 
 #### Búsqueda DFS
-<video controls width="600">
-  <source src="demos/graph/dfs.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Búsqueda DFS](demos/graph/dfs.webm)
 
 #### Algoritmo de Dijkstra
-<video controls width="600">
-  <source src="demos/graph/djikstra.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Algoritmo de Dijkstra](demos/graph/djikstra.webm)
 
 #### Generación de Grafo Aleatorio
-<video controls width="600">
-  <source src="demos/graph/random_graph.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Generación de Grafo Aleatorio](demos/graph/random_graph.webm)
 
 #### Creación de Grafo Personalizado
-<video controls width="600">
-  <source src="demos/graph/custom_graph.webm" type="video/webm">
-  Tu navegador no soporta videos en formato WebM.
-</video>
+![Creación de Grafo Personalizado](demos/graph/custom_graph.webm)
 
 ## Contributing
 
